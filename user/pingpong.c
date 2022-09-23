@@ -37,7 +37,6 @@ int main(int argc, char *argv[]) {
         close(q[1]);
         char buf[5];
         write(p[1], "ping", 5);
-        sleep(5);
         read(q[0], buf, 5);
         printf("%d: received %s\n", getpid(), buf);
         close(p[1]);
@@ -48,9 +47,9 @@ int main(int argc, char *argv[]) {
         close(p[1]);
         close(q[0]);
         char buf[5];
-        write(q[1], "pong", 5);
         read(p[0], buf, 5);
         printf("%d: received %s\n", getpid(), buf);
+        write(q[1], "pong", 5);
         close(p[0]);
         close(q[1]);
     } else
