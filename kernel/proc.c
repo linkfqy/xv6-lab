@@ -42,6 +42,18 @@ void procinit(void) {
     kvminithart();
 }
 
+// Return number of UNUSED process
+int nproc() {
+    int num = 0;
+    struct proc *p;
+    for (p = proc; p < proc + NPROC; p++) {
+        acquire(&p->lock);
+        num += p->state == UNUSED;
+        release(&p->lock);
+    }
+    return num;
+}
+
 // Must be called with interrupts disabled,
 // to prevent race with process being moved
 // to a different CPU.
