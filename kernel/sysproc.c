@@ -96,8 +96,10 @@ uint64 sys_sysinfo(void) {
     info.nproc = nproc();
     info.freefd = 0;
 
+    acquire(&p->lock);
     for (int fd = 0; fd < NOFILE; fd++)
         info.freefd += p->ofile[fd] == 0;
+    release(&p->lock);
 
     if (copyout(p->pagetable, info_addr, (char *)&info, sizeof(info)) < 0)
         return -1;
